@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài giảng: Nhiệt Nóng Chảy - Thầy Lâm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Thêm thư viện KaTeX để hiển thị công thức toán -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMQNogPSesLpv5Fl5dokSDltihLAuhjJpcUGGlc/CUIa/ImFSH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIOOTenRwTBXdmRQwI7CMiUI/bosXvLG7FmUYMAHDDEEOoGfdEu" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .tab-btn {
+            color: #64748B;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .tab-btn:hover {
+            color: #0F172A;
+        }
+        .tab-btn.active {
+            color: #F97316;
+            border-bottom-color: #F97316;
+            font-weight: 700;
+        }
+        .tab-btn.quiz-tab.active {
+             color: #16A34A;
+             border-bottom-color: #16A34A;
+        }
+        .quiz-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .quiz-option.correct {
+            background-color: #16A34A;
+            color: white;
+            border-color: #16A34A;
+        }
+        .quiz-option.incorrect {
+            background-color: #DC2626;
+            color: white;
+            border-color: #DC2626;
+        }
+        canvas {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-800">Bài Giảng Vật Lý Cùng Thầy Lâm</h1>
+            <p class="text-xl mt-2 text-orange-500 font-semibold">Chủ đề: Khám Phá Bí Ẩn "Nhiệt Nóng Chảy Riêng"</p>
+            <!-- NÚT MỚI ĐƯỢC THÊM VÀO -->
+            <div class="mt-4">
+                 <a href="https://drive.google.com/file/d/1ecDZpW6Ie8x9YsE-qDT5VQaa7f6LLZAQ/view?usp=sharing" target="_blank" class="inline-block bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block w-5 h-5 mr-2 -mt-1"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                    Tài liệu tham khảo
+                </a>
+            </div>
+        </header>
+
+        <div class="mb-8 border-b border-slate-200">
+            <div class="flex -mb-px space-x-2 md:space-x-6 justify-center overflow-x-auto pb-2">
+                <button class="tab-btn active text-sm md:text-base py-3 px-3 whitespace-nowrap" onclick="changeTab(event, 'tab1')">1. Kiến thức về Sự Nóng Chảy</button>
+                <button class="tab-btn quiz-tab text-sm md:text-base py-3 px-3 whitespace-nowrap" onclick="changeTab(event, 'tab2')">2. Kiểm Tra Kiến Thức</button>
+            </div>
+        </div>
+
+        <main id="tab-container">
+            <!-- Tab 1: Gộp nội dung -->
+            <div id="tab1" class="tab-content active">
+                <!-- Phần 1: Khái niệm -->
+                <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">A. Khái Niệm & Vai Trò</h2>
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                         <div>
+                            <div class="space-y-4 text-slate-700">
+                                <h3 class="font-semibold text-lg text-slate-800">1. Hệ thức tính nhiệt lượng</h3>
+                                <p>Nhiệt lượng cần truyền cho vật khi vật bắt đầu nóng chảy tới khi vật nóng chảy hoàn toàn phụ thuộc vào khối lượng của vật và tính chất của chất làm vật. Nhiệt lượng cần để một vật rắn nóng chảy hoàn toàn tại nhiệt độ nóng chảy được tính bằng công thức:</p>
+                                <div class="bg-blue-50 text-blue-800 p-4 rounded-lg text-center text-xl">$Q = m \cdot \lambda$</div>
+                                <h3 class="font-semibold text-lg text-slate-800 mt-6">2. Định nghĩa nhiệt nóng chảy riêng</h3>
+                                <p>Từ công thức trên, ta có thể định nghĩa nhiệt nóng chảy riêng ($\lambda$):</p>
+                                <div class="bg-blue-50 text-blue-800 p-4 rounded-lg text-center text-xl">$\lambda = \frac{Q}{m}$</div>
+                                <p><strong>Định nghĩa:</strong> Nhiệt nóng chảy riêng của một chất là nhiệt lượng cần thiết để 1kg chất đó chuyển hoàn toàn từ thể rắn sang thể lỏng ở nhiệt độ nóng chảy.</p>
+                            </div>
+                            <hr class="my-6 border-slate-200">
+                            <h3 class="text-xl font-bold text-orange-600 mb-2">Góc nhìn Thầy Lâm: "Nhiệt lượng hy sinh"</h3>
+                            <div class="space-y-4 text-slate-700">
+                                <p>Lạ thay, khi đun đá ở 0°C, nhiệt kế không hề nhúc nhích! Vậy năng lượng đó đã đi đâu? À, nó không dùng để làm các phân tử "nóng tính" hơn, mà dùng như một "khoản phí" để phá vỡ các liên kết vững chắc, giúp các phân tử được "tự do" chuyển sang thể lỏng.</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center min-h-[350px]">
+                            <h3 class="text-xl font-semibold mb-4 text-center">Mô phỏng: Phá vỡ liên kết</h3>
+                            <canvas id="melting-canvas" width="300" height="250"></canvas>
+                            <button id="start-melting-btn" class="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition">Bắt đầu mô phỏng</button>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Phần 2: Thí nghiệm -->
+                 <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">B. Thí Nghiệm & Đồ Thị</h2>
+                     <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="font-semibold text-lg text-slate-800">1. Thí nghiệm trong tưởng tượng</h3>
+                            <div class="space-y-4 text-slate-700">
+                                 <p>Ta có một cốc chứa đầy nước đá ở -10°C và đun nó trên một ngọn lửa đều đặn. Quá trình sẽ diễn ra như sau:</p>
+                                 <ul class="list-disc list-inside space-y-2">
+                                    <li><strong>Giai đoạn 1:</strong> Nhiệt độ của đá sẽ tăng từ -10°C lên 0°C.</li>
+                                    <li><strong>Giai đoạn 2:</strong> Khi đạt 0°C, đá bắt đầu tan chảy. Suốt quá trình này, dù ta vẫn đun, nhiệt độ của hỗn hợp nước và đá <strong>KHÔNG ĐỔI</strong>.</li>
+                                    <li><strong>Giai đoạn 3:</strong> Khi viên đá cuối cùng tan hết, nhiệt độ của nước trong cốc sẽ bắt đầu tăng lên.</li>
+                                 </ul>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center justify-center min-h-[300px]">
+                            <h3 class="text-xl font-semibold mb-4 text-center">Mô phỏng: Quá trình đun nước đá</h3>
+                            <div id="experiment-container" class="relative w-[300px] h-[250px]">
+                                <svg id="svg-tab2" width="300" height="250" viewBox="0 0 300 250"></svg>
+                                <div id="thermometer-reading" class="absolute top-10 right-0 bg-white p-2 rounded-lg shadow-lg text-lg font-bold text-blue-600">-10 °C</div>
+                            </div>
+                            <button class="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition" onclick="animateTab2()">Bắt đầu thí nghiệm</button>
+                        </div>
+                    </div>
+                     <hr class="my-6 border-slate-200">
+                      <div class="grid md:grid-cols-2 gap-8 items-center">
+                          <div>
+                            <h3 class="font-semibold text-lg text-slate-800">2. Kể chuyện bằng đồ thị</h3>
+                             <div class="space-y-4 text-slate-700">
+                               <p>Nếu vẽ lại quá trình trên lên đồ thị, ta sẽ thấy rất rõ 3 giai đoạn. Đoạn nằm ngang chính là "chữ ký" của nhiệt nóng chảy, khi năng lượng được dùng để chuyển thể chứ không tăng nhiệt độ.</p>
+                            </div>
+                          </div>
+                          <div class="flex flex-col items-center justify-center min-h-[300px]">
+                            <h3 class="text-xl font-semibold mb-4 text-center">Mô phỏng: Vẽ đồ thị nóng chảy</h3>
+                            <svg id="svg-tab3" width="350" height="250"></svg>
+                            <button class="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition" onclick="animateTab3()">Vẽ đồ thị</button>
+                          </div>
+                      </div>
+                </div>
+
+                <!-- Phần 3: Ứng dụng -->
+                 <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                    <h2 class="text-2xl font-bold text-blue-700 mb-4">C. Ứng dụng đời sống</h2>
+                     <div class="grid md:grid-cols-2 gap-8 items-center">
+                         <div>
+                            <div class="space-y-4 text-slate-700">
+                               <p>Nhiệt nóng chảy không phải là thứ gì đó xa xôi. Nó ở ngay quanh ta!</p>
+                               <ul class="list-disc list-inside space-y-2">
+                                   <li><strong>Giữ mát đồ uống:</strong> Nước đá hấp thụ một lượng nhiệt rất lớn từ nước ngọt để tan chảy, nhờ đó giữ cho ly nước của em mát lạnh trong thời gian dài.</li>
+                                   <li><strong>Tuyết tan:</strong> Vào mùa xuân, cần một lượng nhiệt khổng lồ từ mặt trời để làm tan chảy cả một lớp tuyết dày.</li>
+                                   <li><strong>Đúc kim loại:</strong> Người thợ rèn phải cung cấp thêm nhiệt nóng chảy riêng để kim loại chuyển hoàn toàn sang thể lỏng.</li>
+                               </ul>
+                            </div>
+                         </div>
+                         <div class="flex flex-col items-center justify-center min-h-[300px]">
+                            <h3 class="text-xl font-semibold mb-4 text-center">Mô phỏng: Ly nước đá "thần kỳ"</h3>
+                            <svg id="svg-tab4" width="300" height="200" viewBox="0 0 300 200"></svg>
+                            <button class="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition" onclick="animateTab4()">Xem ứng dụng</button>
+                        </div>
+                     </div>
+                 </div>
+
+                <!-- Phần 4: Tương tác -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
+                    <h3 class="font-bold text-xl text-blue-800 mb-2">Góc Tương Tác Cùng Thầy Lâm</h3>
+                    <p class="text-slate-600 mb-4">Em có điều gì về sự nóng chảy khiến em băn khoăn không? Đừng ngần ngại hỏi thầy nhé!</p>
+                    <form class="flex gap-2" onsubmit="handleAIChat(event, 'tab1')">
+                        <input type="text" id="prompt-tab1" class="flex-grow p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Ví dụ: Tại sao nhiệt độ không đổi khi đá tan?">
+                        <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">Gửi</button>
+                    </form>
+                    <div id="response-tab1" class="mt-4 p-4 bg-white rounded-lg border border-slate-200 text-slate-700 whitespace-pre-wrap hidden"></div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Kiểm tra kiến thức -->
+            <div id="tab2" class="tab-content">
+                <div id="quiz-container" class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-bold text-center text-green-700 mb-6">Thử Tài Cùng Thầy Lâm</h2>
+                    <div id="quiz-question" class="text-lg font-semibold mb-6 min-h-[50px]"></div>
+                    <div id="quiz-options" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                    <button id="quiz-next-btn" class="w-full mt-8 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-all duration-300 font-bold hidden" onclick="nextQuestion()">Câu tiếp theo</button>
+                </div>
+                <div id="quiz-results" class="hidden max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg text-center">
+                     <h2 class="text-3xl font-bold text-green-700 mb-4">Hoàn thành!</h2>
+                     <p class="text-lg mb-2">Kết quả của em:</p>
+                     <p id="quiz-score" class="text-5xl font-bold text-orange-500 my-4"></p>
+                     <p id="quiz-feedback" class="text-slate-600 font-style: italic"></p>
+                     <button class="mt-8 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-all duration-300 font-bold" onclick="restartQuiz()">Làm lại</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --------- HỆ THỐNG TAB ---------
+        function changeTab(event, tabId) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            if (tabId === 'tab1') {
+                drawTab4Scene(false);
+            }
+            if (window.renderMathInElement) {
+                renderMathInElement(document.body, {delimiters: [{left: "$", right: "$", display: false}] });
+            }
+        }
+
+        // --- MÔ PHỎNG CANVAS TAB 1 ---
+        const setupMeltingCanvas = () => {
+            const canvas = document.getElementById('melting-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const btn = document.getElementById('start-melting-btn');
+            let particles = [], animationFrameId;
+            const STATES = { IDLE: 'IDLE', HEATING: 'HEATING', MELTING: 'MELTING' };
+            let currentState = STATES.IDLE;
+            class Particle {
+                constructor(x, y) { this.x = x; this.y = y; this.originX = x; this.originY = y; this.radius = 8; this.color = '#3b82f6'; this.vx = (Math.random() - 0.5) * 1.5; this.vy = (Math.random() - 0.5) * 1.5; this.vibrationAmplitude = 0; }
+                draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = this.color; ctx.fill(); }
+                update() {
+                    if (currentState === STATES.HEATING) { this.x = this.originX + (Math.random() - 0.5) * this.vibrationAmplitude; this.y = this.originY + (Math.random() - 0.5) * this.vibrationAmplitude; } 
+                    else if (currentState === STATES.MELTING) { this.x += this.vx; this.y += this.vy; if (this.x < this.radius || this.x > canvas.width - this.radius) this.vx *= -1; if (this.y < this.radius || this.y > canvas.height - this.radius) this.vy *= -1; }
+                }
+            }
+            function init() {
+                currentState = STATES.IDLE;
+                if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                particles = []; const padding = 40, numCols = 5, numRows = 5; const spacingX = (canvas.width - padding * 2) / (numCols - 1); const spacingY = (canvas.height - padding * 2) / (numRows - 1);
+                for (let i = 0; i < numCols; i++) for (let j = 0; j < numRows; j++) particles.push(new Particle(padding + i * spacingX, padding + j * spacingY));
+                ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => p.draw()); btn.textContent = "Bắt đầu mô phỏng"; btn.disabled = false;
+            }
+            let globalVibration = 0;
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if (currentState === STATES.HEATING) { if (globalVibration < 8) globalVibration += 0.06; else { currentState = STATES.MELTING; btn.textContent = "Thiết lập lại"; btn.disabled = false; } }
+                particles.forEach(p => { if (currentState === STATES.HEATING) p.vibrationAmplitude = globalVibration; p.update(); p.draw(); });
+                animationFrameId = requestAnimationFrame(animate);
+            }
+            btn.addEventListener('click', () => { if (currentState === STATES.IDLE) { currentState = STATES.HEATING; globalVibration = 0; btn.textContent = "Đang làm nóng..."; btn.disabled = true; animate(); } else init(); });
+            init();
+        }
+
+        // --- MÔ PHỎNG THÍ NGHIỆM ẢO TAB 1 ---
+        function animateTab2() {
+            const svg = document.getElementById('svg-tab2');
+            svg.innerHTML = ''; const readingDiv = document.getElementById('thermometer-reading');
+            const beaker = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            beaker.setAttribute("d", "M50 200 L 50 50 H 250 L 250 200 Z"); beaker.setAttribute("stroke", "#9CA3AF"); beaker.setAttribute("stroke-width", "3"); beaker.setAttribute("fill", "rgba(100,150,255,0.1)"); svg.appendChild(beaker);
+            const ice = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            ice.setAttribute("x", "75"); ice.setAttribute("y", "120"); ice.setAttribute("width", "150"); ice.setAttribute("height", "80"); ice.setAttribute("fill", "#60A5FA"); ice.setAttribute("rx", "10"); svg.appendChild(ice);
+            const water = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            water.setAttribute("x", "52"); water.setAttribute("y", "200"); water.setAttribute("width", "196"); water.setAttribute("height", "0"); water.setAttribute("fill", "#3B82F6"); svg.appendChild(water);
+            const flame = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            flame.setAttribute("d", "M120 240 Q 150 200 180 240 Q 150 220 120 240"); flame.setAttribute("fill", "#F97316"); flame.style.opacity = '0'; svg.appendChild(flame);
+            flame.innerHTML = `<animate attributeName="opacity" values="0;1" dur="0.5s" fill="freeze" /><animateTransform attributeName="transform" type="scale" values="1 1; 1 1.2; 1 1" dur="0.5s" repeatCount="indefinite" additive="sum" />`;
+            let temp = -10; const interval = setInterval(() => { if (temp < 0) { temp++; } else if (temp === 0 && ice.getAttribute('height') > 0) { const newHeight = parseFloat(ice.getAttribute('height')) - 1; ice.setAttribute('height', newHeight); ice.setAttribute('y', parseFloat(ice.getAttribute('y')) + 1); water.setAttribute('height', parseFloat(water.getAttribute('height'))+0.4); water.setAttribute('y', parseFloat(water.getAttribute('y')) - 0.4); } else { if (temp < 30) temp++; else clearInterval(interval); } readingDiv.textContent = `${temp} °C`; }, 100);
+        }
+
+        // --- CẬP NHẬT: MÔ PHỎNG ĐỒ THỊ TAB 1 ---
+        function animateTab3() {
+            const svg = document.getElementById('svg-tab3');
+            if (!svg) return;
+            svg.innerHTML = '';
+            
+            const axisX = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            axisX.setAttribute("x1", 40); axisX.setAttribute("y1", 200); axisX.setAttribute("x2", 340); axisX.setAttribute("y2", 200);
+            axisX.setAttribute("stroke", "black"); axisX.setAttribute("stroke-width", "2");
+            svg.appendChild(axisX);
+
+            const axisY = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            axisY.setAttribute("x1", 50); axisY.setAttribute("y1", 210); axisY.setAttribute("x2", 50); axisY.setAttribute("y2", 10);
+            axisY.setAttribute("stroke", "black"); axisY.setAttribute("stroke-width", "2");
+            svg.appendChild(axisY);
+
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            const d = "M 50 180 L 120 150 L 250 150 L 320 80";
+            path.setAttribute("d", d);
+            path.setAttribute("fill", "none");
+            path.setAttribute("stroke", "#F97316");
+            path.setAttribute("stroke-width", "4");
+            path.setAttribute("stroke-linecap", "round");
+            
+            svg.appendChild(path);
+            const pathLength = path.getTotalLength();
+            
+            path.setAttribute("stroke-dasharray", pathLength);
+            path.setAttribute("stroke-dashoffset", pathLength);
+
+            path.innerHTML = `<animate attributeName="stroke-dashoffset" from="${pathLength}" to="0" dur="2s" fill="freeze" />`;
+        }
+
+        // --- MÔ PHỎNG ỨNG DỤNG TAB 1 ---
+        function drawTab4Scene(isAnimated = false) {
+            const svg = document.getElementById('svg-tab4'); if (!svg) return; svg.innerHTML = ''; 
+            const glass = document.createElementNS("http://www.w3.org/2000/svg", "path"); glass.setAttribute("d", "M80 30 L 100 180 H 200 L 220 30 Z"); glass.setAttribute("stroke", "#9CA3AF"); glass.setAttribute("stroke-width", "3"); glass.setAttribute("fill", "rgba(100,150,255,0.1)"); svg.appendChild(glass);
+            const drink = document.createElementNS("http://www.w3.org/2000/svg", "path"); drink.setAttribute("d", "M85 50 L 100 170 H 200 L 215 50 Z"); drink.setAttribute("fill", "#FBBF24"); svg.appendChild(drink);
+            const iceCube = document.createElementNS("http://www.w3.org/2000/svg", "rect"); iceCube.setAttribute("x", "130"); iceCube.setAttribute("y", "60"); iceCube.setAttribute("width", "40"); iceCube.setAttribute("height", "40"); iceCube.setAttribute("fill", "white"); iceCube.setAttribute("stroke", "#60A5FA"); iceCube.setAttribute("stroke-width", "2"); iceCube.setAttribute("rx", "5"); svg.appendChild(iceCube);
+            if (isAnimated) { iceCube.innerHTML = `<animate attributeName="width" from="40" to="5" dur="8s" fill="freeze" /><animate attributeName="height" from="40" to="5" dur="8s" fill="freeze" /><animate attributeName="x" from="130" to="147.5" dur="8s" fill="freeze" /><animate attributeName="y" from="60" to="77.5" dur="8s" fill="freeze" /><animate attributeName="opacity" from="1" to="0" begin="7.5s" dur="0.5s" fill="freeze" />`; const heatPositions = [ { x: 105, y: 150 }, { x: 195, y: 150 }, { x: 110, y: 100 }, { x: 190, y: 100 }, { x: 120, y: 130 }, { x: 180, y: 130 } ]; const iceCenter = { x: 150, y: 80 }; heatPositions.forEach((pos, i) => { const heat = document.createElementNS("http://www.w3.org/2000/svg", "circle"); heat.setAttribute("cx", pos.x); heat.setAttribute("cy", pos.y); heat.setAttribute("r", "4"); heat.setAttribute("fill", "#ef4444"); heat.setAttribute("opacity", "0"); svg.appendChild(heat); heat.innerHTML = `<animate attributeName="opacity" values="0; 1; 1; 0" dur="2.5s" begin="${i * 0.5}s" repeatCount="indefinite" /><animateMotion path="M0,0 Q${(iceCenter.x - pos.x)*0.5},${(iceCenter.y - pos.y)*0.5} ${iceCenter.x - pos.x},${iceCenter.y - pos.y}" dur="2.5s" begin="${i * 0.5}s" repeatCount="indefinite" /><animate attributeName="r" from="4" to="0" dur="2.5s" begin="${i * 0.5}s" repeatCount="indefinite" />`; }); }
+        }
+        function animateTab4() { drawTab4Scene(true); }
+
+        // --------- HỆ THỐNG QUIZ ---------
+        const quizData = [ { question: "Nhiệt nóng chảy riêng của một chất cho biết điều gì?", options: [ "Nhiệt lượng cần để 1kg chất đó tăng thêm 1°C.", "Nhiệt lượng cần để 1kg chất đó hóa hơi hoàn toàn.", "Nhiệt lượng cần để 1kg chất rắn nóng chảy hoàn toàn ở nhiệt độ nóng chảy.", "Nhiệt độ mà tại đó chất rắn bắt đầu nóng chảy." ], correct: 2 }, { question: "Đơn vị của nhiệt nóng chảy riêng trong hệ SI là gì?", options: ["J/kg", "J/kg.°C", "J", "°C/kg"], correct: 0 }, { question: "Trong quá trình nóng chảy của một chất rắn tinh thể, nhiệt độ của vật...", options: ["tăng dần.", "giảm dần.", "không thay đổi.", "tăng rồi giảm."], correct: 2 }, { question: "Công thức tính nhiệt lượng thu vào khi nóng chảy là gì?", options: ["Q = m.c.Δt", "Q = L.m", "Q = λ.m", "Q = P.t"], correct: 2 }, { question: "Tại sao người ta dùng nước đá để giữ lạnh thực phẩm?", options: [ "Vì nước đá có màu đẹp.", "Vì nước đá có nhiệt độ rất thấp.", "Vì quá trình nóng chảy của đá thu vào một nhiệt lượng rất lớn.", "Vì nước đá rẻ tiền." ], correct: 2 }, { question: "Trên đồ thị biểu diễn sự nóng chảy, đoạn nào thể hiện quá trình chất rắn tan hoàn toàn?", options: ["Đoạn dốc lên", "Đoạn dốc xuống", "Đoạn nằm ngang", "Toàn bộ đồ thị"], correct: 2 } ];
+        let currentQuestionIndex = 0, score = 0, selectedOption = null;
+        const quizContainer = document.getElementById('quiz-container'); const resultsContainer = document.getElementById('quiz-results'); const questionEl = document.getElementById('quiz-question'); const optionsEl = document.getElementById('quiz-options'); const nextBtn = document.getElementById('quiz-next-btn');
+        function startQuiz() { currentQuestionIndex = 0; score = 0; selectedOption = null; quizContainer.style.display = 'block'; resultsContainer.style.display = 'none'; nextBtn.style.display = 'none'; showQuestion(); }
+        function showQuestion() { resetState(); const currentQuestion = quizData[currentQuestionIndex]; questionEl.textContent = `${currentQuestionIndex + 1}. ${currentQuestion.question}`; currentQuestion.options.forEach((option, index) => { const button = document.createElement('button'); button.textContent = option; button.classList.add('quiz-option', 'p-4', 'border-2', 'rounded-lg', 'text-left', 'transition-all', 'duration-200'); button.dataset.index = index; button.addEventListener('click', (e) => selectAnswer(e.target)); optionsEl.appendChild(button); }); }
+        function resetState() { nextBtn.style.display = 'none'; while(optionsEl.firstChild) { optionsEl.removeChild(optionsEl.firstChild); } }
+        function selectAnswer(selectedBtn) { if (selectedOption !== null) return; selectedOption = parseInt(selectedBtn.dataset.index); const correctIndex = quizData[currentQuestionIndex].correct; if (selectedOption === correctIndex) { score++; selectedBtn.classList.add('correct'); } else { selectedBtn.classList.add('incorrect'); } Array.from(optionsEl.children).forEach((button, index) => { if (index === correctIndex) { button.classList.add('correct'); } button.disabled = true; }); nextBtn.style.display = 'block'; if (currentQuestionIndex === quizData.length - 1) { nextBtn.textContent = 'Xem kết quả'; } }
+        function nextQuestion() { selectedOption = null; currentQuestionIndex++; if (currentQuestionIndex < quizData.length) { showQuestion(); } else { showResults(); } }
+        function showResults() { quizContainer.style.display = 'none'; resultsContainer.style.display = 'block'; const percentage = Math.round((score / quizData.length) * 100); document.getElementById('quiz-score').textContent = `${score}/${quizData.length} (${percentage}%)`; let feedback = ""; if (percentage === 100) { feedback = "Xuất sắc! Em đã thực sự thấu hiểu bài học. Thầy rất tự hào!"; } else if (percentage >= 70) { feedback = "Làm tốt lắm! Em đã nắm vững phần lớn kiến thức. Hãy xem lại những câu sai để hoàn thiện nhé."; } else if (percentage >= 50) { feedback = "Khá lắm! Em đã có nền tảng rồi đó. Cố gắng thêm chút nữa ở những phần chưa chắc chắn nhé."; } else { feedback = "Đừng nản lòng! Hành trình vạn dặm bắt đầu từ một bước chân. Hãy cùng thầy xem lại bài giảng và thử lại nhé."; } document.getElementById('quiz-feedback').textContent = feedback; }
+        function restartQuiz() { startQuiz(); }
+        
+        // --------- HỆ THỐNG TƯƠNG TÁC AI ---------
+        const apiKey = "";
+        async function handleAIChat(event, tabId) { 
+            event.preventDefault(); 
+            const promptInput = document.getElementById(`prompt-tab1`); 
+            const responseDiv = document.getElementById(`response-tab1`); 
+            const userInput = promptInput.value.trim(); 
+            if (!userInput) return; 
+            responseDiv.textContent = 'Để thầy vận công một chút... Thầy đang kết nối với vũ trụ vật lý...'; 
+            responseDiv.style.display = 'block'; 
+            promptInput.disabled = true; 
+            event.target.querySelector('button').disabled = true; 
+            const structuredPrompt = `
+                Bối cảnh: Một học sinh đang hỏi trong bài giảng online về "Nhiệt nóng chảy riêng".
+                ---
+                Luật Lệ Bất Di Bất Dịch của bạn:
+                1.  **Nhân vật:** Bạn là "Thầy Lâm", một thầy giáo dạy Vật lý không chỉ có tâm mà còn có cả "muối". Phong cách của bạn là biến kiến thức khô khan thành những câu chuyện cười ra nước mắt, dùng ví dụ "bá đạo" và so sánh oái oăm để học sinh nhớ bài đến già.
+                2.  **Nhiệm vụ:** Trả lời câu hỏi của học sinh với giọng văn hài hước, dí dỏm, thông minh nhưng vẫn phải đảm bảo kiến thức vật lý chính xác.
+                3.  **Chuyên môn:** Chỉ trả lời các câu hỏi liên quan chặt chẽ đến sự nóng chảy và nhiệt nóng chảy riêng.
+                4.  **Từ chối "ngoài luồng":** Nếu học sinh hỏi chuyện không liên quan (ví dụ: "thầy có người yêu chưa?", "hôm nay đá banh đội nào thắng?"), hãy từ chối một cách thật hài hước theo đúng phong cách của Thầy Lâm. Ví dụ: "Câu hỏi đó thuộc một vũ trụ khác rồi em ơi, để tiết sau chúng ta du hành đến đó nhé. Giờ thì quay lại với vương quốc băng giá của chúng ta nào!"
+                ---
+                Câu hỏi của học sinh: "${userInput}"
+                ---
+                Hãy trả lời câu hỏi trên.`; 
+            try { 
+                const response = await callGemini(structuredPrompt); 
+                responseDiv.textContent = response; 
+            } catch (error) { 
+                console.error("Error:", error); 
+                responseDiv.textContent = 'Ối, hình như mạng nhà thầy vừa bị "nóng chảy" rồi. Em hỏi lại sau vài giây nhé!'; 
+            } finally { 
+                promptInput.disabled = false; 
+                event.target.querySelector('button').disabled = false; 
+                promptInput.value = ''; 
+            } 
+        }
+        async function callGemini(promptText) { const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`; const payload = { contents: [{ parts: [{ text: promptText }] }] }; const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); if (!response.ok) throw new Error(`API call failed: ${response.status}`); const result = await response.json(); if (result.candidates && result.candidates.length > 0) { return result.candidates[0].content.parts[0].text; } return "Rất tiếc, thầy chưa nghĩ ra câu trả lời phù hợp."; }
+
+        // --------- KHỞI TẠO KHI TẢI TRANG ---------
+        window.onload = () => {
+            startQuiz();
+            setupMeltingCanvas();
+            drawTab4Scene(false);
+            if (window.renderMathInElement) { renderMathInElement(document.body, { delimiters: [{left: "$", right: "$", display: false}] }); }
+        };
+    </script>
+</body>
+</html>
